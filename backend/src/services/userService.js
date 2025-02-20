@@ -18,7 +18,7 @@ const authenticateUser = async (email, password, rememberMe) => {
   const isValid = await bcrypt.compare(password, user.password);
   if (!isValid) throw new Error("Senha incorreta!");
 
-  const expiresIn = rememberMe ? "30d" : "1h";
+  const expiresIn = rememberMe ? "30d" : "10s";
 
   const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
     expiresIn: expiresIn,
