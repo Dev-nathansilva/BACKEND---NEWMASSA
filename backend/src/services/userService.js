@@ -23,7 +23,6 @@ const authenticateUser = async (email, password, rememberMe) => {
   const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
     expiresIn: expiresIn,
   });
-
   return { token, user: { name: user.name } };
 };
 
