@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "nome": "João da Silva",
+    "tipo": "Empresa",
+    "documento": "123.456.789-00",
+    "email": "joao.silva@email.com",
+    "telefone": "(11) 91234-5678",
+    "inscricaoEstadual": null,
+    "status": true,
+    "endereco": "Rua das Flores, 123",
+    "complemento": "Apto 45",
+    "cidade": "São Paulo",
+    "bairro": "Centro",
+    "cep": "01000-000",
+    "credito": 500.5,
+    "observacoes": "1",
+    "dataCadastro": "2025-04-27T17:03:46.061Z",
+    "updatedAt": "2025-04-27T17:03:46.061Z"
+  },
+  {
+    "id": 26,
+    "nome": "A B SILVA (HIDECON)",
+    "tipo": "Empresa",
+    "documento": "11.810.587/0001-10",
+    "email": "nathan@gmail.com",
+    "telefone": "(85) 93227-2679",
+    "inscricaoEstadual": "",
+    "status": true,
+    "endereco": "R MONSENHOR SALAZAR, 879",
+    "complemento": "",
+    "cidade": "FORTALEZA",
+    "bairro": "PIO XII",
+    "cep": "60130-370",
+    "credito": 0,
+    "observacoes": "",
+    "dataCadastro": "2025-05-06T00:58:03.318Z",
+    "updatedAt": "2025-05-06T00:59:09.971Z"
+  }
+]

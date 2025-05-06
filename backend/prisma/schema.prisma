@@ -7,19 +7,145 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Nivel {
-  admin
-  vendedor
-  padrao
+model User {
+  id                    String      @id @default(cuid())
+  name                  String
+  email                 String      @unique
+  password              String
+  nivel                 String      @default("Padrão")
+  fotoPerfil            String?
+  telefone              String?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  passwordResetToken    String?
+  passwordResetExpires  DateTime?
 }
 
-model User {
-  id       String      @id @default(cuid())
-  name     String
-  email    String   @unique
-  password String
-  nivel    Nivel    @default(padrao)
-  passwordResetToken   String?
-  passwordResetExpires DateTime?
-  
+
+model Cliente {
+  id                 Int       @id @default(autoincrement())
+  nome               String
+  tipo               String    // Ex: "Pessoa Física", "Empresa"
+  documento          String   // CPF ou CNPJ
+  email              String
+  telefone           String
+  inscricaoEstadual  String?
+  status             Boolean   @default(true)
+  endereco           String?   @default("Não informado")
+  complemento        String?    
+  cidade             String?   @default("Não informado")
+  bairro             String?   @default("Não informado")
+  cep                String?   @default("00000-000")
+  credito            Float?    @default(0.0)
+  observacoes        String? 
+  dataCadastro       DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+}
+
+
+model Fornecedor {
+  id                    Int     @id @default(autoincrement())
+  nome                  String
+  documento             String
+  cidade                String
+  status                Boolean   @default(true)
+  email                 String
+  telefone              String
+  inscricaoEstadual     String?
+  endereco              String?
+  complemento           String?
+  bairro                String?
+  cep                   String?
+  referenciaBancaria    String?
+  chavePix              String?
+  nomeTitular           String?
+  limiteCredito         Float?
+  condicoesPagamento    String?
+  observacoes           String?
+  produtos              FornecedorProduto[]
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+
+model Vendedor {
+  id             Int   @id @default(autoincrement())
+  nome           String
+  email          String
+  telefone       String
+  comissao       Float   
+  status         Boolean   @default(true)
+  observacoes    String?  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+
+
+model Funcionario {
+  id            Int   @id @default(autoincrement())
+  nome          String
+  email         String
+  telefone      String
+  observacoes   String?
+  cargo         String 
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+
+
+
+model Produto {
+  id                Int   @id @default(autoincrement())
+  codigoSKU         String?
+  descricao         String
+  unidade           String    // Ex: "kg", "un", "litro"
+  estoque           Int
+  dataValidade      DateTime?
+  formato           String   // Enum: COMPOSICAO ou COMPONENTE
+  precoCusto        Float
+  margemLucro       Float     // Em porcentagem. Ex: 25.5 = 25,5%
+  precoVenda        Float
+  codigoBarrasGTIN  String
+  status            Boolean   @default(true)
+  observacoes       String?
+  origem            String?
+  ncm               String?
+  cest              String?
+  csosn             String?
+  icmsInterno       Float?
+  baseCalculo       Float?
+  ipi               Float?
+  cstPis            String?
+  cstCofins         String?
+  pesoBruto         Float?
+  pesoLiquido       Float?
+  composicoes       Composicao[] @relation("ProdutoComposicao")     // Produtos que usam ESTE produto como composição
+  componentes       Composicao[] @relation("ComponenteProduto")     // Componentes que compõem ESTE produto
+  fornecedores      FornecedorProduto[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+
+
+model Composicao {
+  id             Int     @id @default(autoincrement())
+  produtoId      Int
+  componenteId   Int
+  quantidade     Float
+  produto        Produto @relation("ProdutoComposicao", fields: [produtoId], references: [id])
+  componente     Produto @relation("ComponenteProduto", fields: [componenteId], references: [id])
+}
+
+
+model FornecedorProduto {
+  id           Int     @id @default(autoincrement())
+  produtoId    Int
+  fornecedorId Int
+  produto      Produto    @relation(fields: [produtoId], references: [id])
+  fornecedor   Fornecedor @relation(fields: [fornecedorId], references: [id])
+  @@unique([produtoId, fornecedorId])
 }
