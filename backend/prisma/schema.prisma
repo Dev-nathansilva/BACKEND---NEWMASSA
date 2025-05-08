@@ -28,7 +28,8 @@ model Cliente {
   tipo               String    // Ex: "Pessoa Física", "Empresa"
   documento          String   // CPF ou CNPJ
   email              String
-  telefone           String
+  telefone           String?
+  telefonefixo       String?
   inscricaoEstadual  String?
   status             Boolean   @default(true)
   endereco           String?   @default("Não informado")
